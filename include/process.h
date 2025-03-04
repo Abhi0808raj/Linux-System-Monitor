@@ -6,10 +6,10 @@
 
 int GetRunningProcesses();
 
-// Struct to hold process information
 struct ProcessInfo {
     int pid;
     std::string name;
+    float cpuUsagePercent;
 };
 
 std::vector<ProcessInfo> GetProcessList();
