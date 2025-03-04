@@ -3,6 +3,7 @@
 
 #include <utility>
 
-std::pair<long, long> GetMemoryUsage();
+std::pair<long, float> GetMemoryUsage();
+float GetMemoryUtilization();
 
 #endif
