@@ -37,8 +37,8 @@ void DisplayMonitor() {
 
         // Display Process List - Sorted by CPU Usage
         mvprintw(7, 2, "== Processes (Sorted by CPU%) ==");
-        mvprintw(8, 2, "PID     CPU%    NAME"); // Added CPU% column header
-        mvprintw(9, 2, "------- ------- --------------------"); // Separator line
+        mvprintw(8, 2, "PID     CPU%    RAM (MB) NAME"); // Added RAM (MB) column header
+        mvprintw(9, 2, "------- ------- -------- --------------------"); // Separator line
 
         std::vector<ProcessInfo> processes = GetProcessList();
         int startRow = 10;
@@ -47,7 +47,8 @@ void DisplayMonitor() {
 
         for (const auto& process : processes) {
             if (processCount >= maxProcessesToDisplay) break;
-            mvprintw(startRow + processCount, 2, "%-7d %-7.1f%%  %-.20s", process.pid, process.cpuUsagePercent, process.name.c_str()); // Display CPU% and format
+            double ramUsageMB = static_cast<double>(process.ramUsageKB) / 1024.0; // Convert KB to MB for display
+            mvprintw(startRow + processCount, 2, "%-7d %-7.1f%%  %-8.1f %-.20s", process.pid, process.cpuUsagePercent, ramUsageMB, process.name.c_str()); // Display RAM and format
             processCount++;
         }
 

@@ -10,6 +10,7 @@ struct ProcessInfo {
     int pid;
     std::string name;
     float cpuUsagePercent;
+    long ramUsageKB; 
 };
 
 std::vector<ProcessInfo> GetProcessList();

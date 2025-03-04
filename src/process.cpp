@@ -6,7 +6,7 @@
 #include <sstream>
 #include <iostream>
 #include <algorithm>
-#include <map> // For std::map
+#include <map>
 
 using namespace std;
 
@@ -24,9 +24,7 @@ int GetRunningProcesses() {
     return runningProcesses;
 }
 
-// Static map to store previous CPU times for processes
 static map<int, pair<long, long>> prevProcessCpuTimes;
-// Static variables to store previous system CPU times
 static long prevTotalSystemTime = 0;
 static long prevIdleSystemTime = 0;
 
@@ -47,7 +45,7 @@ std::vector<ProcessInfo> GetProcessList() {
     long currentIdleSystemTime = idle + iowait;
     long currentTotalSystemTime = user + nice + system + idle + iowait + irq + softirq + steal;
 
-    if (prevTotalSystemTime == 0) { // First call, initialize previous system times
+    if (prevTotalSystemTime == 0) {
         prevTotalSystemTime = currentTotalSystemTime;
         prevIdleSystemTime = currentIdleSystemTime;
     }
@@ -83,17 +81,40 @@ std::vector<ProcessInfo> GetProcessList() {
                         stat_ss >> utime >> stime;
 
                         float cpuUsagePercent = 0.0f;
-                        if (prevProcessCpuTimes.count(pid)) { // If we have previous CPU time for this process
+                        if (prevProcessCpuTimes.count(pid)) {
                             long prev_utime = prevProcessCpuTimes[pid].first;
                             long prev_stime = prevProcessCpuTimes[pid].second;
                             long processCpuTimeDiff = (utime - prev_utime) + (stime - prev_stime);
 
-                            if (totalSystemTimeDiff > 0) { // Avoid division by zero
+                            if (totalSystemTimeDiff > 0) {
                                 cpuUsagePercent = (static_cast<float>(processCpuTimeDiff) / static_cast<float>(totalSystemTimeDiff)) * 100.0f;
                             }
                         }
-                        processes.push_back({pid, processName, cpuUsagePercent});
-                        prevProcessCpuTimes[pid] = {utime, stime}; // Store current times as previous for next iteration
+
+                        // Get RAM Usage (VmRSS)
+                        string status_file = "/proc/" + to_string(pid) + "/status";
+                        ifstream status_stream(status_file);
+                        string status_line;
+                        long ramUsage = 0; // Default to 0 if not found
+                        while (getline(status_stream, status_line)) {
+                            if (status_line.substr(0, 6) == "VmRSS:") {
+                                string value_str;
+                                stringstream line_stream(status_line);
+                                string key;
+                                line_stream >> key >> value_str;
+                                try {
+                                    ramUsage = std::stol(value_str); // Convert VmRSS value to long
+                                } catch (const std::invalid_argument& e) {
+                                    cerr << "Warning: Invalid VmRSS value for PID " << pid << ": " << value_str << endl;
+                                    ramUsage = 0; // Set to 0 on conversion error
+                                }
+                                break; // Found VmRSS, no need to read further
+                            }
+                        }
+
+
+                        processes.push_back({pid, processName, cpuUsagePercent, ramUsage}); // Add ramUsage
+                        prevProcessCpuTimes[pid] = {utime, stime};
 
 
                     } else {
@@ -107,12 +128,10 @@ std::vector<ProcessInfo> GetProcessList() {
         cerr << "Error: Could not open /proc directory" << endl;
     }
 
-    // Update previous system CPU times for next iteration
     prevTotalSystemTime = currentTotalSystemTime;
     prevIdleSystemTime = currentIdleSystemTime;
 
 
-    // Sort processes by CPU usage in descending order
     sort(processes.begin(), processes.end(), [](const ProcessInfo& a, const ProcessInfo& b) {
         return a.cpuUsagePercent > b.cpuUsagePercent;
     });
