@@ -1,6 +1,10 @@
-#include "display.h"
+#include <QApplication>
+#include "mainwindow.h"
 
-int main() {
-    DisplayMonitor();
-    return 0;
+int main(int argc, char *argv[])
+{
+    QApplication app(argc, argv);
+    MainWindow w;
+    w.show();
+    return app.exec();
 }

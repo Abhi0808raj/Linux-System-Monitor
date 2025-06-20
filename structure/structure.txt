@@ -1,0 +1,17 @@
+project-root/
+├── CMakeLists.txt
+├── structure/
+│   ├── structure.txt
+├── include/
+│   ├── cpu.h
+│   ├── memory.h
+│   ├── process.h
+│   └── mainwindow.h
+├── src/
+│   ├── main.cpp
+│   ├── mainwindow.cpp
+│   ├── cpu.cpp
+│   ├── memory.cpp
+│   ├── process.cpp
+└── ui/
+    └── mainwindow.ui

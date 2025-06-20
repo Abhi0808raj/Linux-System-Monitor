@@ -1,45 +1,37 @@
 #include "memory.h"
 #include <fstream>
+#include <sstream>
 #include <string>
-#include <sstream> // For istringstream
-#include <iostream> // For cerr
-#include <iomanip>  // For std::fixed and std::setprecision
+#include <iostream>
+#include <utility>
+#include <iomanip>
 
-using namespace std;
-
-pair<long, float> GetMemoryUsage() { // Return pair: {totalMem, utilization_percentage}
-    ifstream file("/proc/meminfo");
+std::pair<long, float> GetMemoryUsage() { // Return pair: {totalMem, utilization_percentage}
+    std::ifstream file("/proc/meminfo");
     if (!file.is_open()) {
-        cerr << "Error: Could not open /proc/meminfo" << endl;
+        std::cerr << "Error: Could not open /proc/meminfo" << std::endl;
         return {-1, -1.0f}; // Error pair: totalMem=-1, utilization=-1.0
     }
-
-    string line, key, valueStr; // valueStr to hold string value before conversion
-    float totalMemFloat = -1.0f, availableMemFloat = -1.0f; // Use floats for calculation
+    std::string line, key, valueStr;
+    float totalMemFloat = -1.0f, availableMemFloat = -1.0f;
     long totalMemKB = -1;
-
-    while (getline(file, line)) { // Read line by line
-        istringstream linestream(line);
-        linestream >> key >> valueStr; // Read key and value as string
+    while (std::getline(file, line)) {
+        std::istringstream linestream(line);
+        linestream >> key >> valueStr;
         if (key == "MemTotal:") {
-            totalMemFloat = stof(valueStr); // Convert to float using stof
-            totalMemKB = static_cast<long>(totalMemFloat); // Keep totalMemKB as long for display
+            totalMemFloat = std::stof(valueStr);
+            totalMemKB = static_cast<long>(totalMemFloat);
         } else if (key == "MemAvailable:") {
-            availableMemFloat = stof(valueStr); // Convert to float using stof
+            availableMemFloat = std::stof(valueStr);
         }
     }
-
     if (totalMemFloat == -1.0f || availableMemFloat == -1.0f) {
-        cerr << "Error: Could not read MemTotal or MemAvailable from /proc/meminfo" << endl;
-        return {-1, -1.0f}; // Error pair
+        std::cerr << "Error: Could not read MemTotal or MemAvailable from /proc/meminfo" << std::endl;
+        return {-1, -1.0f};
     }
-
     float utilizationPercentage = 0.0f;
-    if (totalMemFloat > 0.0f) { // Prevent division by zero
+    if (totalMemFloat > 0.0f) {
         utilizationPercentage = ((totalMemFloat - availableMemFloat) / totalMemFloat) * 100.0f;
     }
-
-    cerr << "Debug memory.cpp: MemTotal=" << totalMemKB << ", MemAvailable=" << availableMemFloat << " kB, Utilization=" << fixed << setprecision(2) << utilizationPercentage << "%" << endl; // Debug print
-
-    return {totalMemKB, utilizationPercentage}; // Return totalMemKB and utilization percentage
+    return {totalMemKB, utilizationPercentage};
 }
