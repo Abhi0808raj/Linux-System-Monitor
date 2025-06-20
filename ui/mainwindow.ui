@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+    <class>MainWindow</class>
+    <widget class="QMainWindow" name="MainWindow">
+        <property name="geometry">
+            <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>600</width>
+                <height>500</height>
+            </rect>
+        </property>
+        <property name="windowTitle">
+            <string>System Monitor</string>
+        </property>
+        <widget class="QWidget" name="centralwidget">
+            <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0,0,1">
+                <item>
+                    <widget class="QLabel" name="titleLabel">
+                        <property name="text">
+                            <string>&lt;h2&gt;System Monitor&lt;/h2&gt;</string>
+                        </property>
+                        <property name="alignment">
+                            <set>Qt::AlignCenter</set>
+                        </property>
+                    </widget>
+                </item>
+                <item>
+                    <widget class="QLabel" name="cpuLabel">
+                        <property name="text">
+                            <string>CPU Usage: </string>
+                        </property>
+                    </widget>
+                </item>
+                <item>
+                    <widget class="QLabel" name="memoryLabel">
+                        <property name="text">
+                            <string>Memory Usage: </string>
+                        </property>
+                    </widget>
+                </item>
+                <item>
+                    <widget class="QLabel" name="processCountLabel">
+                        <property name="text">
+                            <string>Running Processes: </string>
+                        </property>
+                    </widget>
+                </item>
+                <item>
+                    <widget class="QTableWidget" name="processTable">
+                        <property name="columnCount">
+                            <number>4</number>
+                        </property>
+                        <property name="rowCount">
+                            <number>10</number>
+                        </property>
+                        <column>
+                            <property name="text">
+                                <string>PID</string>
+                            </property>
+                        </column>
+                        <column>
+                            <property name="text">
+                                <string>CPU %</string>
+                            </property>
+                        </column>
+                        <column>
+                            <property name="text">
+                                <string>RAM (MB)</string>
+                            </property>
+                        </column>
+                        <column>
+                            <property name="text">
+                                <string>Name</string>
+                            </property>
+                        </column>
+                    </widget>
+                </item>
+            </layout>
+        </widget>
+        <widget class="QMenuBar" name="menubar"/>
+        <widget class="QStatusBar" name="statusbar"/>
+    </widget>
+    <resources/>
+    <connections/>
+</ui>

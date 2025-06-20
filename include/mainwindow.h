@@ -18,7 +18,7 @@ public:
 private slots:
     void updateStats();
 
-private:g
+private:
     Ui::MainWindow *ui;
 };
 
