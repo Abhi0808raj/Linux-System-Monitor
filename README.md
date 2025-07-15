@@ -1,4 +1,3 @@
-
 # Linux System Monitor
 
 A real-time system monitoring application built with Qt6 and C++ that provides comprehensive system information including CPU usage, memory utilization, and running processes.
