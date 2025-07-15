@@ -191,5 +191,4 @@ This project is provided as-is for educational and personal use.
 ## Version History
 
 - **v1.0.0**: Initial release with basic CPU, memory, and process monitoring
-=======
 
