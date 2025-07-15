@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 # Linux System Monitor
 
@@ -192,3 +193,6 @@ This project is provided as-is for educational and personal use.
 
 - **v1.0.0**: Initial release with basic CPU, memory, and process monitoring
 =======
+=======
+# Linus-System-Monitor
+>>>>>>> parent of 303c5eb (Updated README>md)
