@@ -1,0 +1,10 @@
+# Ignore everything
+*
+
+# But not these files and directories
+!CMakeLists.txt
+!README.md
+!include/
+!src/
+!structure/
+!ui/
