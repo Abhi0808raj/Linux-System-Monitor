@@ -1,3 +1,4 @@
+
 # Linux System Monitor
 
 A real-time system monitoring application built with Qt6 and C++ that provides comprehensive system information including CPU usage, memory utilization, and running processes.
@@ -190,3 +191,4 @@ This project is provided as-is for educational and personal use.
 ## Version History
 
 - **v1.0.0**: Initial release with basic CPU, memory, and process monitoring
+=======
