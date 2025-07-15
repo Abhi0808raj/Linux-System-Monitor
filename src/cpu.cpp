@@ -1,3 +1,4 @@
+// Implementation for getting cpu usage
 #include "cpu.h"
 #include <fstream>
 #include <sstream>

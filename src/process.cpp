@@ -1,3 +1,4 @@
+// Implementation for getting running processes
 #include "process.h"
 #include <fstream>
 #include <sstream>

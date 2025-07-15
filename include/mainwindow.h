@@ -1,3 +1,4 @@
+// main window header file
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
